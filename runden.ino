@@ -1,6 +1,7 @@
 bool durchfahrt_1 = 0;
 bool durchfahrt_2 = 0;
 int runde = 0;
+int runden_zeit[9];
 unsigned long startzeit = millis();
 unsigned long rennzeit = 0;
 
