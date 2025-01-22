@@ -40,12 +40,14 @@ void loop()
     durchfahrt_1 = 0;
   }
 	delay(10);
+  //Kontrollausgabe auf dem Monitor kann später gelöscht werden
   if (runde>9)
-  {for (int i=0; i< 10; i++)
   {
-    Serial.println(runden_zeit_1[i]);
-    delay(100);
-    runde=0;
+    for (int i=0; i< 10; i++)
+    {
+      Serial.println(runden_zeit_1[i]);
+      delay(100);
+      runde=0;
     }
   }
 }
@@ -60,7 +62,7 @@ void anzeige_1()
 {
   ld.clear();
   ld.printDigit(rennzeit,4);
-  delay(1000);
+  delay(1500);
   ld.clear();
   ld.printDigit(runde,4);
   Serial.println(rennzeit);
@@ -93,3 +95,5 @@ void starten()
   Serial.println("--START--");
   return;
 }
+void ziel(){}
+void geschwindigkeit(){}
