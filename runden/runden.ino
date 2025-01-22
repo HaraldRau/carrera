@@ -40,7 +40,8 @@ void loop()
     durchfahrt_1 = 0;
   }
 	delay(10);
-  //Kontrollausgabe auf dem Monitor kann später gelöscht werden
+// Kontrollausgabe auf dem Monitor kann später gelöscht werden
+// Später alles für die zweite Spur duplizieren
   if (runde>9)
   {
     for (int i=0; i< 10; i++)
