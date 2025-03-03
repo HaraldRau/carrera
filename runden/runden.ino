@@ -17,7 +17,7 @@ void setup()
   Serial.begin(9600);
   pinMode(2, INPUT_PULLUP);
   pinMode(12, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(2), spur_1, FALLING);
+  attachInterrupt(digitalPinToInterrupt(3), spur_1, FALLING);
   ld.setBright(15); // range is 0-15
   ld.setDigitLimit(8);
   starten();//Rennen starten und Starzeit auf Runde 0 setzen
