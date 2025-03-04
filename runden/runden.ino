@@ -5,7 +5,7 @@ DigitLedDisplay ld = DigitLedDisplay(7, 6, 5);
 
 bool durchfahrt_1 = 0;
 bool durchfahrt_2 = 0;
-bool start = 0;
+// bool start = 0;
 int runde_1 = 0;
 int runde_2 = 0;
 int runden_zeit_1[50];
@@ -28,27 +28,27 @@ void setup()
 
 void loop()
 {
-  rennzeit = abs(millis()/100)-startzeit;
-  if (durchfahrt_1 == 1 && runden_zeit_1[runde_1]+50<rennzeit)
+  rennzeit = abs(millis()/10)-startzeit;
+  if (durchfahrt_1 == 1 && runden_zeit_1[runde_1]+500<rennzeit)
   {
     runde_1++;
     runden_zeit_1[runde_1] = rennzeit;
     durchfahrt_1 = 0;
     // delay(10);
-    anzeige_1();
+    anzeige();
   }
   else
   {
     durchfahrt_1 = 0;
   }
 
-    if (durchfahrt_2 == 1 && runden_zeit_2[runde_2]+50<rennzeit)
+    if (durchfahrt_2 == 1 && runden_zeit_2[runde_2]+500<rennzeit)
   {
     runde_2++;
     runden_zeit_2[runde_2] = rennzeit;
     durchfahrt_2 = 0;
     // delay(10);
-    anzeige_2();
+    anzeige();
   }
   else
   {
@@ -85,7 +85,7 @@ durchfahrt_2 = 1;
 return durchfahrt_2;
 }
 
-void anzeige_1()
+void anzeige()
 {
   ld.clear();
   // ld.printDigit(rennzeit,4);
@@ -96,16 +96,6 @@ void anzeige_1()
   // Serial.println(rennzeit);
 }
 
-void anzeige_2()
-{
-  ld.clear();
-  // ld.printDigit(rennzeit,7);
-  // delay(1500);
-  // ld.clear();
-  ld.printDigit(runde_2,0);
-  ld.printDigit(runde_1,4);
-  // Serial.println(rennzeit);
-}
 
 void starten()
 {
@@ -126,7 +116,7 @@ void starten()
   ld.printDigit(88888888,0);
   delay(1000);
   ld.clear();
-  startzeit = abs(millis()/100);
+  startzeit = abs(millis()/10);
   runden_zeit_1[0]=0;
   runden_zeit_2[0]=0;
   Serial.println(startzeit);
