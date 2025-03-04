@@ -6,7 +6,8 @@ DigitLedDisplay ld = DigitLedDisplay(7, 6, 5);
 bool durchfahrt_1 = 0;
 bool durchfahrt_2 = 0;
 bool start = 0;
-int runde = 0;
+int runde_1 = 0;
+int runde_2 = 0;
 int runden_zeit_1[50];
 int runden_zeit_2[50];
 unsigned long startzeit = millis();
@@ -16,8 +17,9 @@ void setup()
 {
   Serial.begin(9600);
   pinMode(2, INPUT_PULLUP);
-  pinMode(12, INPUT_PULLUP);
+  pinMode(3, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(3), spur_1, FALLING);
+  attachInterrupt(digitalPinToInterrupt(2), spur_2, FALLING);
   ld.setBright(15); // range is 0-15
   ld.setDigitLimit(8);
   starten();//Rennen starten und Starzeit auf Runde 0 setzen
@@ -27,30 +29,45 @@ void setup()
 void loop()
 {
   rennzeit = abs(millis()/100)-startzeit;
-  if (durchfahrt_1 == 1 && runden_zeit_1[runde]+100<rennzeit)
+  if (durchfahrt_1 == 1 && runden_zeit_1[runde_1]+50<rennzeit)
   {
-    runde++;
-    runden_zeit_1[runde] = rennzeit;
+    runde_1++;
+    runden_zeit_1[runde_1] = rennzeit;
     durchfahrt_1 = 0;
-    delay(10);
+    // delay(10);
     anzeige_1();
   }
   else
   {
     durchfahrt_1 = 0;
   }
-	delay(10);
-// Kontrollausgabe auf dem Monitor kann später gelöscht werden
-// Später alles für die zweite Spur duplizieren
-  if (runde>9)
+
+    if (durchfahrt_2 == 1 && runden_zeit_2[runde_2]+50<rennzeit)
   {
-    for (int i=0; i< 10; i++)
+    runde_2++;
+    runden_zeit_2[runde_2] = rennzeit;
+    durchfahrt_2 = 0;
+    // delay(10);
+    anzeige_2();
+  }
+  else
+  {
+    durchfahrt_2 = 0;
+  }
+
+   if (runde_1 > 9)
+  {
+    for (int i=1; i< 10; i++)
     {
-      Serial.println(runden_zeit_1[i]);
+      Serial.print(runden_zeit_1[i] - runden_zeit_1[i-1]);
+      Serial.print(" | ");
+      Serial.println(runden_zeit_2[i] - runden_zeit_2[i-1]);
       delay(100);
-      runde=0;
+      runde_1=0;
+      runde_2=0;
     }
   }
+	delay(10);
 }
 
 void spur_1()
@@ -59,18 +76,34 @@ durchfahrt_1 = 1;
 return durchfahrt_1;
 }
 
+void spur_2()
+{
+durchfahrt_2 = 1;
+return durchfahrt_2;
+}
+
 void anzeige_1()
 {
   ld.clear();
-  ld.printDigit(rennzeit,4);
-  delay(1500);
-  ld.clear();
-  ld.printDigit(runde,4);
-  Serial.println(rennzeit);
-  //Serial.print("Runde: ");
-  //Serial.print(runde);
-  //Serial.print(" ");
+  // ld.printDigit(rennzeit,4);
+  // delay(1500);
+  // ld.clear();
+  ld.printDigit(runde_1,4);
+  ld.printDigit(runde_2,0);
+  // Serial.println(rennzeit);
 }
+
+void anzeige_2()
+{
+  ld.clear();
+  // ld.printDigit(rennzeit,7);
+  // delay(1500);
+  // ld.clear();
+  ld.printDigit(runde_2,0);
+  ld.printDigit(runde_1,4);
+  // Serial.println(rennzeit);
+}
+
 void starten()
 {
   ld.printDigit(8,0);
@@ -92,6 +125,7 @@ void starten()
   ld.clear();
   startzeit = abs(millis()/100);
   runden_zeit_1[0]=0;
+  runden_zeit_2[0]=0;
   Serial.println(startzeit);
   Serial.println("--START--");
   return;
