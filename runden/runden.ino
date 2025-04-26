@@ -29,7 +29,7 @@ void setup()
 void loop()
 {
   rennzeit = abs(millis()/10)-startzeit;
-  if (durchfahrt_1 == 1 && runden_zeit_1[runde_1]+500<rennzeit)
+  if (durchfahrt_1 == 1 && runden_zeit_1[runde_1]+200<rennzeit)
   {
     runde_1++;
     runden_zeit_1[runde_1] = rennzeit;
@@ -42,7 +42,7 @@ void loop()
     durchfahrt_1 = 0;
   }
 
-    if (durchfahrt_2 == 1 && runden_zeit_2[runde_2]+500<rennzeit)
+    if (durchfahrt_2 == 1 && runden_zeit_2[runde_2]+200<rennzeit)
   {
     runde_2++;
     runden_zeit_2[runde_2] = rennzeit;
@@ -57,7 +57,7 @@ void loop()
 
    if (runde_1 > 9)
   {
-    for (int i=1; i< 10; i++)
+    for (int i=1; i< 20; i++)
     {
       Serial.print(runden_zeit_1[i] - runden_zeit_1[i-1]);
       Serial.print(" | ");
