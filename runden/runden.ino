@@ -12,6 +12,7 @@ int runden_zeit_1[50];
 int runden_zeit_2[50];
 unsigned long startzeit = millis();
 unsigned long rennzeit = 0;
+int runden = 10;
 
 void setup()
 {
@@ -55,17 +56,9 @@ void loop()
     durchfahrt_2 = 0;
   }
 
-   if (runde_1 > 9)
+   if (runde_1 == runden || runde_2 == runden)
   {
-    for (int i=1; i< 20; i++)
-    {
-      Serial.print(runden_zeit_1[i] - runden_zeit_1[i-1]);
-      Serial.print(" | ");
-      Serial.println(runden_zeit_2[i] - runden_zeit_2[i-1]);
-      delay(100);
-      runde_1=0;
-      runde_2=0;
-    }
+    ziel();
   }
 
 	delay(10);
@@ -123,5 +116,42 @@ void starten()
   Serial.println("--START--");
   return;
 }
-void ziel(){}
+void ziel()
+{
+  ld.clear();
+  if (runde_1 == runden)
+  {
+    Serial.println("Faher eins ist Sieger");
+    while (true)
+    {
+      ld.printDigit(8888,4);
+      delay(1000);
+      ld.clear();
+      delay(1000);
+    }
+  }
+  if (runde_2 == runden)
+  {
+    Serial.println("Faher zwei ist Sieger");
+    while (true)
+    {
+      ld.printDigit(8888,0);
+      delay(1000);
+      ld.clear();
+      delay(1000);
+    }
+  }
+  for (int i=1; i< runden+1; i++)
+  {
+    Serial.print(runden_zeit_1[i] - runden_zeit_1[i-1]);
+    Serial.print(" | ");
+    Serial.println(runden_zeit_2[i] - runden_zeit_2[i-1]);
+    delay(100);
+    runde_1=0;
+    runde_2=0;
+  }
+  delay(5000);
+  ld.clear();
+
+}
 void geschwindigkeit(){}
